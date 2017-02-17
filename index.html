@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Highlight Stopwatch</title>
+  <script src="resources/vue.min.js"></script>
+
+</head>
+<body>
+<div id="app">
+
+    <p>{{time_string}}</p>
+
+    <button @click="resumeTimer">go</button>
+    <button @click="pauseTimer">pause</button>
+    <button @click="stopTimer">stop</button>
+    <button @click="highlight">highlight</button>
+    <br>
+    <button @click="chooseDirectory">Choose Directory</button>
+
+    <p>Highlights: {{highlights.join(', ')}}</p>
+
+</div>
+<script src="resources/main.js"></script>
+</body>
+</html>
