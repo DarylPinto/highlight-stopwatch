@@ -3,6 +3,7 @@ const ipc = require('electron').ipcMain;
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
+const saveHighlights = require('./save-highlights.js');
 
 //User config
 let config = require('./config.js')(app);
@@ -27,17 +28,17 @@ function createWindow(){
 }
 
 /*** IPC Listeners ***/
-ipc.on('highlight', function(event, data){
-	console.log(data.join(', '));
+ipc.on('save-highlights', function(event, data){
+	saveHighlights(config.watch_path, data);
 });
 
-ipc.on('directory-change', function(event, data){
+ipc.on('watch-path-change', function(event, data){
 	let selected_folders = dialog.showOpenDialog({properties: ['openDirectory']});
 	if(selected_folders === undefined) return false;
 
 	let watch_path = selected_folders[0];
 	config.set({watch_path});
-	event.sender.send('directory-change', watch_path);
+	event.sender.send('watch-path-change', watch_path);
 });
 
 ipc.on('config-request', function(event, data){
@@ -46,8 +47,10 @@ ipc.on('config-request', function(event, data){
 
 /*** Main app events ***/
 app.on('ready', () => {
-	createWindow();
 	config.load();
+	if(!fs.existsSync(config.watch_path)) config.set({watch_path: null});
+	createWindow();
+	//console.log(fs.readdirSync(config.watch_path));
 });
 
 app.on('window-all-closed', () => { (process.platform !== 'darwin') ? app.quit() : null });

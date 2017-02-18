@@ -4,5 +4,8 @@
   "main": "index.js",
   "devDependencies": {
     "electron": "^1.4.15"
+  },
+  "dependencies": {
+    "recursive-readdir": "^2.1.1"
   }
 }

@@ -2,7 +2,7 @@ const remote = require('electron').remote;
 const ipc = require('electron').ipcRenderer;
 
 /*** IPC Listeners ***/
-ipc.on('directory-change', function(event, data){
+ipc.on('watch-path-change', function(event, data){
 	vm.watch_path = data;
 });
 
@@ -50,15 +50,20 @@ let vm = new Vue({
 		stopTimer: function(){
 			this.pauseTimer();
 			this.seconds = 0;
+			this.saveHighlights();
+			this.highlights = [];
 		},
 
 		highlight: function(){
 			this.highlights.push(this.time_string);
-			ipc.send('highlight', this.highlights);
 		},
 
-		chooseDirectory: function(){
-			ipc.send('directory-change', null);
+		chooseWatchPath: function(){
+			ipc.send('watch-path-change', null);
+		},
+
+		saveHighlights: function(){
+			ipc.send('save-highlights', this.highlights);
 		}
 
 	},
