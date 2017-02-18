@@ -10,6 +10,10 @@ ipc.on('config-reply', function(event, data){
 	vm.watch_path = data.watch_path;
 });
 
+ipc.on('keyboard-shortcut', function(event, data){
+	vm[data]();
+});
+
 /*** Renderer ***/
 let vm = new Vue({
 	el: '#app',

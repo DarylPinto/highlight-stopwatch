@@ -11,9 +11,9 @@
 
     <p>{{time_string}}</p>
 
-    <button @click="resumeTimer" :disabled="watch_path === null">Start</button>
+    <button @click="resumeTimer" :disabled="watch_path === null || timer_running">Start</button>
     <!-- <button @click="pauseTimer">pause</button> -->
-    <button @click="stopTimer" :disabled="watch_path === null">Stop</button>
+    <button @click="stopTimer" :disabled="watch_path === null || !timer_running">Stop</button>
     <button @click="highlight" :disabled="watch_path === null || !timer_running">Highlight</button>
     <br>
     <br>

@@ -49,8 +49,13 @@ ipc.on('config-request', function(event, data){
 app.on('ready', () => {
 	config.load();
 	if(!fs.existsSync(config.watch_path)) config.set({watch_path: null});
+
 	createWindow();
-	//console.log(fs.readdirSync(config.watch_path));
+	
+	globalShortcut.register('PageUp', () => {
+    win.webContents.send('keyboard-shortcut', 'highlight');
+  });
+
 });
 
 app.on('window-all-closed', () => { (process.platform !== 'darwin') ? app.quit() : null });
