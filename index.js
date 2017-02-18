@@ -1,6 +1,11 @@
-const {app, BrowserWindow, globalShortcut, ipcMain, dialog} = require('electron');
+const {app, BrowserWindow, globalShortcut, dialog} = require('electron');
+const ipc = require('electron').ipcMain;
 const path = require('path');
 const url = require('url');
+const fs = require('fs');
+
+//User config
+let config = require('./config.js')(app);
 
 //global window object
 let win;
@@ -21,18 +26,28 @@ function createWindow(){
 	win.on('closed', () => win = null);
 }
 
-/***IPC events***/
-ipcMain.on('highlight', function(event, data){
+/*** IPC Listeners ***/
+ipc.on('highlight', function(event, data){
 	console.log(data.join(', '));
 });
 
-ipcMain.on('directory-change', function(event, data){
-	dialog.showOpenDialog({properties: ['openDirectory']});
+ipc.on('directory-change', function(event, data){
+	let selected_folders = dialog.showOpenDialog({properties: ['openDirectory']});
+	if(selected_folders === undefined) return false;
+
+	let watch_path = selected_folders[0];
+	config.set({watch_path});
+	event.sender.send('directory-change', watch_path);
 });
 
-/***Main app events***/
+ipc.on('config-request', function(event, data){
+	event.sender.send('config-reply', config);
+});
+
+/*** Main app events ***/
 app.on('ready', () => {
-	createWindow();	
+	createWindow();
+	config.load();
 });
 
 app.on('window-all-closed', () => { (process.platform !== 'darwin') ? app.quit() : null });

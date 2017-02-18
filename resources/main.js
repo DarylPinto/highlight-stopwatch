@@ -1,13 +1,23 @@
 const remote = require('electron').remote;
 const ipc = require('electron').ipcRenderer;
-//const dialog = remote.dialog;
 
+/*** IPC Listeners ***/
+ipc.on('directory-change', function(event, data){
+	vm.watch_path = data;
+});
+
+ipc.on('config-reply', function(event, data){
+	vm.watch_path = data.watch_path;
+});
+
+/*** Renderer ***/
 let vm = new Vue({
 	el: '#app',
 	data: {
 		seconds: 0,
 		timeout_id: null,
 		timer_running: false,
+		watch_path: null,
 		highlights: []
 	},
 	computed: {
@@ -51,5 +61,8 @@ let vm = new Vue({
 			ipc.send('directory-change', null);
 		}
 
+	},
+	mounted: function(){
+		ipc.send('config-request', null);
 	}
 });

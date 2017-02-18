@@ -11,14 +11,16 @@
 
     <p>{{time_string}}</p>
 
-    <button @click="resumeTimer">go</button>
-    <button @click="pauseTimer">pause</button>
-    <button @click="stopTimer">stop</button>
-    <button @click="highlight">highlight</button>
+    <button @click="resumeTimer">Start</button>
+    <!-- <button @click="pauseTimer">pause</button> -->
+    <button @click="stopTimer">Stop</button>
+    <button @click="highlight">Highlight</button>
+    <br>
     <br>
     <button @click="chooseDirectory">Choose Directory</button>
 
     <p>Highlights: {{highlights.join(', ')}}</p>
+    <p>Watch Folder: {{watch_path}}</p>
 
 </div>
 <script src="resources/main.js"></script>
