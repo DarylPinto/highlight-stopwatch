@@ -14,8 +14,10 @@ let win;
 //Main window
 function createWindow(){
 	win = new BrowserWindow({
-		width: 400,
-		height: 300
+		height: 250,
+		width: 385,
+		resizable: false,
+		maximizable: false
 	});
 
 	win.loadURL(url.format({
@@ -54,6 +56,10 @@ app.on('ready', () => {
 	
 	globalShortcut.register('PageUp', () => {
     win.webContents.send('keyboard-shortcut', 'highlight');
+  });
+
+  globalShortcut.register('PageDown', () => {
+    win.webContents.send('keyboard-shortcut', 'toggleTimer');
   });
 
 });

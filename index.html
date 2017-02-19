@@ -5,22 +5,34 @@
   <title>Highlight Stopwatch</title>
   <script src="resources/vue.min.js"></script>
 
+  <link rel="stylesheet" href="resources/css/style.css">
+  <link rel="stylesheet" href="resources/css/font-awesome.min.css">
+
 </head>
 <body>
 <div id="app">
 
-    <p>{{time_string}}</p>
-
-    <button @click="resumeTimer" :disabled="watch_path === null || timer_running">Start</button>
-    <!-- <button @click="pauseTimer">pause</button> -->
-    <button @click="stopTimer" :disabled="watch_path === null || !timer_running">Stop</button>
-    <button @click="highlight" :disabled="watch_path === null || !timer_running">Highlight</button>
+    <div class="timer">{{time_string}}</div>
+  
+    <div class="controls">
+      <button @click="resumeTimer" v-show="watch_path != null && !timer_running" class="play-button">
+        <i class="fa fa-play" aria-hidden="true"></i>
+      </button>
+      <button @click="stopTimer" v-show="watch_path != null && timer_running" class="stop-button">
+        <i class="fa fa-stop" aria-hidden="true"></i>
+      </button>
+      <button @click="highlight" v-if="watch_path != null" :disabled="!timer_running" class="highlight-button">
+        <i class="fa fa-bookmark" aria-hidden="true"></i>
+      </button>
+    </div>
     <br>
     <br>
-    <button @click="chooseWatchPath">Choose Watch Folder</button>
 
-    <p>Highlights: {{highlights.join(', ')}}</p>
-    <p>Watch Folder: {{watch_path}}</p>
+    <i class="fa fa-folder choose-watch-path" aria-hidden="true" @click="chooseWatchPath"></i>
+
+    <footer>
+      <p>Folder: {{watch_path}}</p>
+    </footer> 
 
 </div>
 <script src="resources/main.js"></script>

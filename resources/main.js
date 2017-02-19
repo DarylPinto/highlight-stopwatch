@@ -27,20 +27,19 @@ let vm = new Vue({
 	computed: {
 		time_string: function(){		
 			let m = Math.floor(this.seconds/60) % 60;
-		  let s = this.seconds % 60;
-		  let h = Math.floor(this.seconds/3600);
- 
-		  s = (s < 10) ? `0${s}` : s.toString();
-		  m = (m < 10) ? `0${m}` : m.toString();
- 
-		  let timeArray = [m, s];
-		  if(h > 0) timeArray.unshift(h.toString());
+			let s = this.seconds % 60;
+			let h = Math.floor(this.seconds/3600);
 
-		  return timeArray.join(':');
+			s = (s < 10) ? `0${s.toString()}` : s.toString();
+			m = (m < 10) ? `0${m.toString()}` : m.toString();
+
+			let timeString = `${m}:${s}`;
+			if(h > 0) timeString = `${h}:${timeString}`;
+
+			return timeString;
 		}
 	},
 	methods: {	
-
 		resumeTimer: function(){
 			this.timeout_id = setInterval(() => this.seconds++, 1000);
 			this.timer_running = true;
@@ -58,8 +57,17 @@ let vm = new Vue({
 			this.highlights = [];
 		},
 
+		toggleTimer: function(){
+			(this.timer_running) ? this.stopTimer() : this.resumeTimer();
+		},
+
 		highlight: function(){
+			if(!this.timer_running) return false;
 			this.highlights.push(this.time_string);
+			document.querySelector('.timer').classList.add('highlight-flash');
+			window.setTimeout(() => {
+				document.querySelector('.timer').classList.remove('highlight-flash');
+			}, 500);
 		},
 
 		chooseWatchPath: function(){
@@ -69,7 +77,6 @@ let vm = new Vue({
 		saveHighlights: function(){
 			ipc.send('save-highlights', this.highlights);
 		}
-
 	},
 	mounted: function(){
 		ipc.send('config-request', null);
