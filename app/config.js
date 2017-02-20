@@ -13,7 +13,9 @@ module.exports = function(app){
 
 	config.load = function(){
 		if(!fs.existsSync(config_file)) return false;
-		Object.assign(this, JSON.parse(fs.readFileSync(config_file)));
+		try{
+			Object.assign(this, JSON.parse(fs.readFileSync(config_file)));	
+		}catch(err){}
 		return this;
 	}
 

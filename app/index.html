@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Highlight Stopwatch</title>
+  <script src="resources/vue.min.js"></script>
+
+  <link rel="stylesheet" href="resources/css/style.css">
+  <link rel="stylesheet" href="resources/css/font-awesome.min.css">
+
+</head>
+<body>
+<div id="app">
+
+    <section class="watch-path" @click="chooseWatchPath">
+      {{watch_path || 'Click here to select a folder'}}
+    </section> 
+
+    <main :disabled="!watch_path">
+      <div class="timer" data-balloon="Hello" data-balloon-pos="up">{{time_string}}</div>
+      
+      <div class="controls">
+
+        <!--Toggle Timer Button-->
+        <button
+          @click="toggleTimer"
+          v-show="watch_path"
+          :class="{'play-button': !timer_running, 'stop-button': timer_running}"
+          :title="toggleTimerTooltip"
+        >
+          <i class="fa" :class="{'fa-play': !timer_running, 'fa-check': timer_running, 'fa-close': timer_running && highlights.length === 0}" aria-hidden="true"></i>
+        </button>
+  
+        <!--Highlight Button-->
+        <button
+          @click="highlight"
+          v-show="watch_path != null && timer_running"
+          class="highlight-button"
+          title="Highlight Current Time (PgDown)"
+        >
+          <i class="fa fa-star" aria-hidden="true"></i>
+        </button>
+
+      </div>
+      <!-- <i class="fa fa-keyboard-o bind-key-button" aria-hidden="true" @click="chooseWatchPath"></i> -->
+    </main>
+
+    <footer id="notification-area">{{notification}}</footer>
+
+</div>
+<script src="resources/main.js"></script>
+</body>
+</html>

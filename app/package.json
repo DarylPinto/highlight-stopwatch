@@ -1,0 +1,14 @@
+{
+  "name": "highlight-stopwatch",
+  "description": "Mark down the best moments of your videos while you record them!",
+  "productName": "Highlight Stopwatch",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MPLv2",
+  "scripts": {
+  	"pack-windows": "electron-packager . Highlight-Stopwatch --platform=win32 --arch=x64"
+  },
+  "devDependencies": {
+    "electron": "^1.4.15"
+  }
+}

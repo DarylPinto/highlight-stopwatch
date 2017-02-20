@@ -31,7 +31,7 @@ module.exports = function(folder, highlight_data){
 
 	let highlight_filename = newest_file.name.substr(0, newest_file.name.lastIndexOf('.')) + '_highlights.txt';
 
-	fs.writeFile(path.join(folder, highlight_filename), highlight_data.join('\n'), err => {
+	fs.writeFile(path.join(folder, highlight_filename), highlight_data.join('\r\n'), err => {
 		if(err) throw err;
 		console.log('Saved highlights file!');
 	});
