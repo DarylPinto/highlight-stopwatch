@@ -24,16 +24,21 @@ module.exports = function(folder, highlight_data){
 		return file_or_folder.is_file && !file_or_folder.name.endsWith('.txt');
 	});
 
+	let newest_file;
+	
 	//Get most recently created file
-	let newest_file = files.find((file, index, array) => {
-		return file.creation_time === Math.max(...array.map(f => f.creation_time));
-	});
+	if(files.length > 0){
+		newest_file = files.find((file, index, array) => {
+			return file.creation_time === Math.max(...array.map(f => f.creation_time));
+		});
+	}
+	//if watch_dir is empty, use a blank name
+	else{
+		newest_file = {name: ''};
+	}
 
 	let highlight_filename = newest_file.name.substr(0, newest_file.name.lastIndexOf('.')) + '_highlights.txt';
 
-	fs.writeFile(path.join(folder, highlight_filename), highlight_data.join('\r\n'), err => {
-		if(err) throw err;
-		console.log('Saved highlights file!');
-	});
+	fs.writeFile(path.join(folder, highlight_filename), highlight_data.join('\r\n'), err => {if(err) throw err});
 
 }

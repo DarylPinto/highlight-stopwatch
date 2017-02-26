@@ -4,7 +4,7 @@ Mark down the best moments of your videos while you record them!
 ## Why?
 So, I've been making YouTube videos for a while now, and the most frustrating part of the process is having to watch through an entire recording just to find the funniest/most important parts. I've always wished I could just save timestamps whenever something interesting happened to smooth out the editing process, so I made this program to fulfill that need.
 
-Also, I thought it would be fun to try out [Electron](https://github.com/electron/electron).
+Also, I thought it would be fun to try out Electron.
 
 ## How to
 1. Set your screen capture hotkey (in the program of your choice) to `Shift + Page Up`
